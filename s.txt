@@ -1,0 +1,20 @@
+BASE DE DATOS: Tablas
+categoria de productos 
+Productos
+
+Usuarios
+factura(pedidos)
+detalle del pedido
+
+security
+spring.security.user.name=camilo
+spring.security.user.password=password
+
+security.ignored=/**
+security.basic.enable: false   
+management.security.enabled: false  
+
+<dependency>
+			<groupId>org.springframework.session</groupId>
+			<artifactId>spring-session-core</artifactId>
+		</dependency>
