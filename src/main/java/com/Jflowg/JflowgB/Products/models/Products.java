@@ -1,4 +1,4 @@
-package com.Jflowg.JflowgB.models;
+package com.Jflowg.JflowgB.Products.models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -26,7 +26,7 @@ public class Products {
     private String description;
 
     @Column(name="PRO_IMAGE")
-    private int image;
+    private String image;
 
     @Column(name="PRO_CANTIDAD")
     private int cantidad;

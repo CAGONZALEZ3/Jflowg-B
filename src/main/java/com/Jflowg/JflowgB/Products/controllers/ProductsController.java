@@ -1,13 +1,9 @@
-package com.Jflowg.JflowgB.controllers;
+package com.Jflowg.JflowgB.Products.controllers;
 
+import java.io.IOException;
 import java.util.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,21 +13,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.Jflowg.JflowgB.repositories.ProductReporsitory;
+import com.Jflowg.JflowgB.Products.repositories.ProductReporsitory;
+import com.Jflowg.JflowgB.Products.services.Services;
 import com.Jflowg.JflowgB.exception.ResourceNotFoundException;
-import com.Jflowg.JflowgB.models.Products;
+import com.Jflowg.JflowgB.Products.models.Products;
 
 @CrossOrigin(origins = "http://localhost:5173/")
 @RestController
 @RequestMapping("/api/v1")
 public class ProductsController {
-    private static final String IMAGE_PATH = "/Users/Camilo Gonzalez/Documents/Programacion/mine/Jflowg-B/src/main/resources/static/img";
 
     @Autowired
     private ProductReporsitory productReporsitory;
+
+    @Autowired Services pServices;
 
     @PostMapping(value = "pro")
     public String login() {
@@ -43,28 +43,9 @@ public class ProductsController {
         return productReporsitory.findAll();
     }
 
-    @GetMapping("/images/{img}")
-    @ResponseBody
-    public ResponseEntity<ByteArrayResource> getImg(@PathVariable String img){
-        if (img != null && !img.isEmpty()){
-            try {// ../../../../../resources/static/img/
-                Path fileName = Paths.get(IMAGE_PATH, img);
-                byte[] buffer = Files.readAllBytes(fileName);
-                ByteArrayResource byteArrayResource = new ByteArrayResource(buffer);
-                return ResponseEntity.ok()
-                        .contentLength(buffer.length)
-                        .contentType(MediaType.parseMediaType("image/png"))
-                        .body(byteArrayResource);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
-        return ResponseEntity.badRequest().build();
-    }
-
     @PostMapping("/products")
-    public Products guardaProducts(@RequestBody Products products){
-        return productReporsitory.save(products);
+    public Products guardaProducts(@RequestPart("data") Products products,@RequestParam("file") MultipartFile file) throws IOException{
+        return pServices.creaProducts(products, file);
     }
 
     @GetMapping("/products/{id}")

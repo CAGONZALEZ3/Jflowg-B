@@ -1,4 +1,4 @@
-package com.Jflowg.JflowgB.controllers;
+package com.Jflowg.JflowgB.Products.controllers;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

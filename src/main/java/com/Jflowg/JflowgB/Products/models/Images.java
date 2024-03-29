@@ -1,4 +1,4 @@
-package com.Jflowg.JflowgB.models;
+package com.Jflowg.JflowgB.Products.models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
